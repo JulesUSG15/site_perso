@@ -1,6 +1,6 @@
 // src/components/Accueil.tsx
 import React from 'react';
-import './Acceuil.scss';
+import '../styles/Accueil.scss';
 
 
 const Accueil: React.FC = () => {
