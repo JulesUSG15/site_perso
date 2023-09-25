@@ -1,5 +1,6 @@
 // src/components/Navigation.tsx
 import React from 'react';
+import '../styles/Navigation.scss'
 
 const Navigation: React.FC = () => {
   return (
