@@ -1,37 +1,34 @@
 // src/components/Accueil.tsx
 import React from 'react';
-import '../styles/Accueil.scss';
-
+import '../styles/Accueil.scss'; // Importez le fichier SCSS
 
 const Accueil: React.FC = () => {
   return (
-    <div>
-      <h1>Bienvenue sur mon site personnel</h1>
-      <p>Je suis actuellement en 3A en informatique à Polytech Lyon.</p>
-      <p>Mon objectif est de devenir data scientist.</p>
-
-      <h2>À propos de moi</h2>
-      <p>
-        Je suis un étudiant passionné par l'ingénierie en informatique et
-        l'analyse de données. Mon parcours académique à Polytech Lyon m'a
-        permis d'acquérir des compétences en programmation, en mathématiques
-        et en sciences de données.
-      </p>
-
-      <h2>Mes intérêts</h2>
-      <ul>
-        <li>Programmation en Python, Java, JavaScript, etc.</li>
-        <li>Apprentissage automatique (Machine Learning) et IA.</li>
-        <li>Visualisation de données et statistiques.</li>
-        <li>Développement web et applications réactives.</li>
-      </ul>
-
-      <h2>Contactez-moi</h2>
-      <p>
-        Si vous souhaitez en savoir plus sur mes projets ou me contacter pour
-        une opportunité professionnelle, n'hésitez pas à m'envoyer un email à
-        l'adresse : votre@email.com
-      </p>
+    <div className="accueil-container">
+      <div className="first-container">
+        <div className="title-content">
+          <h1 className="name">Ginhac Jules</h1>
+          <p className="summary">
+            Passionné par les mathématiques et l'informatique, je suis actuellement en 3A informatique à Polytech Lyon.
+            Je souhaite me spécialiser dans le domaine de la data science et de l'intelligence artificielle.
+          </p>
+        </div>
+        <div className="image-content">
+          <img
+            src="/votre-photo.jpg"
+            alt="Votre Photo de Profil"
+            className="profile-image"
+          />
+        </div>
+      </div>
+      <div className="buttons">
+        <a href="/a-propos" className="btn">
+          À Propos
+        </a>
+        <a href="/projets" className="btn">
+          Projets
+        </a>
+      </div>
     </div>
   );
 };
