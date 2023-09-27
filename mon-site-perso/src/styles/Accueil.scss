@@ -1,35 +1,39 @@
 
 // src/components/Accueil.scss
 
-.accueil-container {
+.acceuil-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  height: 100vh;
-  justify-content: center;
 }
 
-.title-content {
-  max-width: 600px;
+.first-container {
+  display: flex;;
+  height: 80vh;
   margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+.title-container {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
   justify-content: left;
 
+}
+
+.image-container {
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  text-align: right;
+  margin-left: 20px;
 
 }
 
-.first-content {
-  display: flex;;
-  align-items: center;
-  text-align: center;
-  height: 100vh;
-  justify-content: center;
-  margin-bottom: 20px;
-}
+
+
 
 .name {
   font-size: 2.5em;
@@ -41,24 +45,17 @@
   line-height: 1.5;
 }
 
-.image-content {
-  margin-top: 20px;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  text-align: right;
-  margin-bottom: 20px;
-}
-
-.profile-image {
+.photo {
   width: 200px;
   height: 200px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.buttons {
+.buttons-container {
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .btn {
@@ -75,3 +72,39 @@
     background-color: #0056b3;
   }
 }
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  padding: 0px 20px;
+  height: 50px;
+  // mettre le footer en bas de la page
+  position: fixed;
+  bottom: 0;
+  width: 97.8%;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+
+  .social-logo {
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(1.2); // Légère augmentation de la luminosité au survol
+    }
+  }
+}
+
+.footer-right {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+

@@ -10,8 +10,23 @@
   list-style: none;
   padding: 0;
   display: flex;
-  justify-content: space-between;
   margin: 0;
+  justify-content: space-between;
+}
+
+.nav-list1 {
+  list-style: none;
+  padding:0;
+  display: flex;
+  justify-content: left;
+  margin-left: 20px;
+}
+
+.nav-list2 {
+  list-style: none;
+  padding:0;
+  display: flex;
+  justify-content: right;
 }
 
 .nav-item {
