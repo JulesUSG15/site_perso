@@ -514,6 +514,11 @@ section {
   text-align: right;
 }
 
+.hero .hero-img img {
+  border-radius: 50%; /* add this line to make the image round */
+  text-align: right;
+}
+
 @media (min-width: 1024px) {
   .hero {
     background-attachment: fixed;
