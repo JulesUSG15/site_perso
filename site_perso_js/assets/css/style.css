@@ -560,9 +560,6 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Index Page
---------------------------------------------------------------*/
-/*--------------------------------------------------------------
 # About
 --------------------------------------------------------------*/
 .about .content {
@@ -677,6 +674,9 @@ section {
   transition: 1s;
   height: 300px;
   margin: 0 auto; /* add this line to center the image */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .portfolio .portfolio-wrap .portfolio-info {
@@ -798,7 +798,11 @@ section {
 }
 
 .portfolio-details .portfolio-details-slider img {
-  width: 100%;
+  height: 500px;
+  margin: 0 auto; /* add this line to center the image */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .portfolio-details .portfolio-details-slider .swiper-pagination {
@@ -955,34 +959,7 @@ section {
 .team .member:hover .member-info {
   background: #fff;
 }
-/*--------------------------------------------------------------
-# Clients
---------------------------------------------------------------*/
-.clients .clients-slider .swiper-slide img {
-  opacity: 0.5;
-  transition: 0.3s;
-}
 
-.clients .clients-slider .swiper-slide img:hover {
-  opacity: 1;
-}
-
-.clients .clients-slider .swiper-pagination {
-  margin-top: 20px;
-  position: relative;
-}
-
-.clients .clients-slider .swiper-pagination .swiper-pagination-bullet {
-  width: 12px;
-  height: 12px;
-  background-color: #fff;
-  opacity: 1;
-  border: 1px solid #4154f1;
-}
-
-.clients .clients-slider .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: #4154f1;
-}
 /*--------------------------------------------------------------
 # Contact
 --------------------------------------------------------------*/
