@@ -679,6 +679,15 @@ section {
   margin-right: auto;
 }
 
+.portfolio .portfolio-wrap video {
+  transition: 1s;
+  height: 300px;
+  margin: 0 auto; /* add this line to center the image */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .portfolio .portfolio-wrap .portfolio-info {
   opacity: 0;
   position: absolute;
@@ -768,6 +777,9 @@ section {
 .portfolio .portfolio-wrap:hover img {
   transform: scale(1.1);
 }
+.portfolio .portfolio-wrap:hover video {
+  transform: scale(1.1);
+}
 
 .portfolio .portfolio-wrap:hover::before {
   top: 0;
@@ -798,6 +810,14 @@ section {
 }
 
 .portfolio-details .portfolio-details-slider img {
+  height: 500px;
+  margin: 0 auto; /* add this line to center the image */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.portfolio-details .portfolio-details-slider video {
   height: 500px;
   margin: 0 auto; /* add this line to center the image */
   display: block;
