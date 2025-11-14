@@ -1,0 +1,135 @@
+.project-detail-page {
+  padding-top: 80px;
+}
+
+.project-detail-header {
+  padding: var(--spacing-xl) 0;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.back-link:hover {
+  color: var(--color-primary);
+}
+
+.project-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-xl);
+  flex-wrap: wrap;
+}
+
+.project-category-badge {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+}
+
+.project-header-content h1 {
+  font-size: var(--font-size-4xl);
+  margin-bottom: var(--spacing-md);
+  color: var(--color-text);
+}
+
+.project-meta {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+}
+
+.project-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.project-detail-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.project-description-section,
+.project-technologies-section,
+.project-media-section {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.project-description-section h2,
+.project-technologies-section h2,
+.project-media-section h2 {
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-text);
+}
+
+.project-description {
+  font-size: var(--font-size-lg);
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+}
+
+.technologies-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.tech-badge {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-bg-secondary);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-weight: 500;
+  font-size: var(--font-size-base);
+}
+
+.project-media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.media-item {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  background: var(--color-bg-secondary);
+}
+
+.media-item img,
+.media-item video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.project-not-found {
+  padding-top: 80px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .project-header-content {
+    flex-direction: column;
+  }
+
+  .project-header-content h1 {
+    font-size: var(--font-size-3xl);
+  }
+
+  .project-media-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

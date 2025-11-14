@@ -1,0 +1,67 @@
+.education-card {
+  position: relative;
+  padding-left: var(--spacing-xl);
+}
+
+.education-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  border-radius: var(--radius-sm);
+}
+
+.education-header {
+  margin-bottom: var(--spacing-sm);
+}
+
+.education-degree {
+  font-size: var(--font-size-xl);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+}
+
+.education-school {
+  font-size: var(--font-size-base);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.education-period {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+}
+
+.education-location {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.education-description {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.education-description li {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: 1.8;
+  padding-left: var(--spacing-md);
+  position: relative;
+  margin-bottom: var(--spacing-xs);
+}
+
+.education-description li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--color-primary);
+}
+
