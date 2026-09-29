@@ -1,100 +1,91 @@
-# Portfolio - Jules Ginhac
+# Site personnel — Jules Ginhac
 
-Site web personnel moderne développé avec React, TypeScript et Vite.
+Site vitrine one-page, développé en TypeScript avec Next.js (App Router).
+Refonte 2026 — positionnement : **Président cofondateur d'Apogée Consult
+& spécialiste IA**. Direction graphique proche
+d'[apogee-consult.com](https://www.apogee-consult.com), adaptée à une
+identité personnelle.
 
-## 🚀 Technologies
+## Stack
 
-- **React 18** - Bibliothèque UI
-- **TypeScript** - Typage statique
-- **Vite** - Build tool moderne
-- **Framer Motion** - Animations fluides
-- **React Router** - Navigation
-- **CSS Modules** - Styles modulaires
+- Next.js 15 · App Router
+- React 19 · TypeScript strict
+- Tailwind CSS 3 + tokens CSS centralisés
+- Zod (validation) + Server Action pour le formulaire
+- Nodemailer (SMTP) pour l'envoi — configurable via `.env`
 
-## 📦 Installation
+## Lancement local
 
 ```bash
-# Installer les dépendances
 npm install
-
-# Lancer le serveur de développement
-npm run dev
-
-# Build pour la production
-npm run build
-
-# Prévisualiser le build de production
-npm run preview
+cp .env.example .env.local   # renseigner les valeurs si besoin
+npm run dev                  # http://localhost:3000
 ```
 
-## 🎨 Fonctionnalités
+Autres scripts :
 
-- ✨ Design moderne et responsive
-- 🌙 Mode sombre/clair
-- 🎭 Animations fluides avec Framer Motion
-- 📱 Optimisé mobile
-- ⚡ Performance optimale avec Vite
-- 🔍 SEO friendly
-- ♿ Accessible
-
-## 📁 Structure du projet
-
-```
-src/
-├── components/       # Composants réutilisables
-│   ├── Layout/      # Header, Footer, Layout
-│   ├── UI/          # Composants UI de base
-│   ├── Portfolio/   # Composants portfolio
-│   ├── Skills/      # Composants compétences
-│   ├── Education/   # Composants éducation
-│   ├── Experience/  # Composants expérience
-│   ├── Team/        # Composants équipe
-│   └── Contact/     # Composants contact
-├── contexts/        # Contextes React (Theme)
-├── data/           # Données (projets, infos personnelles, etc.)
-├── pages/          # Pages principales
-└── App.tsx         # Composant principal
+```bash
+npm run build       # build de production
+npm run start       # sert le build
+npm run typecheck   # vérification TypeScript
+npm run lint        # ESLint (config Next)
 ```
 
-## 🎯 Pages
+## Structure
 
-- **/** - Page d'accueil avec présentation et projets en vedette
-- **/about** - À propos, compétences, formation et expérience
-- **/portfolio** - Tous les projets avec filtres
-- **/portfolio/:id** - Détail d'un projet
-- **/contact** - Informations de contact
+```
+app/                # Layout, page d'accueil, sitemap, robots, server action
+components/         # Hero, Expertises, Projects, Experiences, Contact, header, footer
+content/            # Données éditoriales typées (site, personal, expertises, …)
+lib/                # Schéma Zod, rate-limit, envoi email
+public/media/       # Portrait
+public/assets/img/  # Visuels des expériences (conservés)
+_archive/           # Ancien site Vite + HTML statiques (non exposé)
+```
 
-## 🛠️ Développement
+## Éditer le contenu
 
-Le projet utilise Vite pour un développement rapide avec HMR (Hot Module Replacement).
+Toutes les données sont en TypeScript, une seule source par sujet :
 
-### Scripts disponibles
+| Fichier                  | Rôle                                                |
+| ------------------------ | --------------------------------------------------- |
+| `content/site.ts`        | Titre, description, navigation, URL publique        |
+| `content/personal.ts`    | Identité, positionnement, email, liens              |
+| `content/expertises.ts`  | Les quatre piliers                                  |
+| `content/experiences.ts` | Chronologie + formation + certification             |
+| `content/projects.ts`    | Trois cas concrets                                  |
 
-- `npm run dev` - Lance le serveur de développement
-- `npm run build` - Crée un build de production
-- `npm run preview` - Prévisualise le build de production
-- `npm run lint` - Vérifie le code avec ESLint
+Modifier un fichier → mise à jour au prochain rebuild.
 
-## 📝 Mise à jour des données
+## Sections du site
 
-Les données sont centralisées dans le dossier `src/data/` :
+1. **Introduction** — nom, positionnement dirigeant + IA, appel à l'action,
+   citation, portrait.
+2. **Expertises** — quatre piliers : direction & développement d'entreprise,
+   management & pilotage, développement commercial & relation client,
+   expertise IA générative & RAG.
+3. **Réalisations** — trois cas concrets tirés des missions.
+4. **Parcours** — chronologie synthétique : Apogée Consult, Vicinity,
+   Polyenco, Atol CD, BYOME LABS, puis formation Polytech Lyon +
+   certification Mantu.
+5. **Contact** — email professionnel, ville, liens, formulaire.
 
-- `personalInfo.ts` - Informations personnelles
-- `projects.ts` - Liste des projets
-- `skills.ts` - Compétences
-- `education.ts` - Formation
-- `experience.ts` - Expérience professionnelle
-- `team.ts` - Membres de l'équipe
+## Formulaire de contact
 
-## 🎨 Personnalisation
+- Validation côté serveur avec Zod (longueurs, format email).
+- Champ honeypot (`website`) invisible → filtre les bots naïfs.
+- Rate-limit mémoire : 3 envois par IP / 60 s.
+- Envoi via SMTP configuré dans `.env.local` (voir `.env.example`).
+- Si le SMTP n'est **pas** configuré, le formulaire **n'affiche jamais un
+  faux succès** : il propose un lien `mailto:` explicite comme alternative.
 
-Le design system est défini dans `src/index.css` avec des variables CSS pour :
-- Couleurs (light/dark mode)
-- Espacements
-- Typographie
-- Ombres
-- Transitions
+Les secrets ne doivent jamais être commit. `.env.example` est le seul
+fichier partagé.
 
-## 📄 Licence
+## SEO / partage
 
-Ce projet est personnel.
+- `metadata` App Router : title/description/keywords adaptés.
+- `sitemap.ts`, `robots.ts`, canonical.
+- JSON-LD `Person` : rôles, expertise, entreprise, alma mater, liens
+  sociaux.
+- Open Graph et Twitter card avec portrait `/media/portrait.jpg`.
