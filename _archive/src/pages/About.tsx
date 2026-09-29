@@ -1,7 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Section from '../components/UI/Section'
-import SkillBar from '../components/Skills/SkillBar'
 import EducationCard from '../components/Education/EducationCard'
 import ExperienceCard from '../components/Experience/ExperienceCard'
 import { personalInfo } from '../data/personalInfo'
@@ -69,7 +68,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Skills Section */}
-      <Section id="skills" title="Compétences" subtitle="Mes compétences techniques" variant="secondary">
+      <Section id="skills" title="Stacks techniques" subtitle="Technologies et frameworks que je maîtrise">
         <div className="skills-container">
           {skills.map((category, categoryIndex) => (
             <motion.div
@@ -80,10 +79,17 @@ const About: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
             >
-              <h3 className="skill-category-title">{category.name}</h3>
-              <div className="skills-list">
+              <div className="skill-category-header">
+                <h3 className="skill-category-title">{category.name}</h3>
+                {category.description && (
+                  <p className="skill-category-description">{category.description}</p>
+                )}
+              </div>
+              <div className="skills-tags">
                 {category.skills.map((skill) => (
-                  <SkillBar key={skill.name} skill={skill} />
+                  <span key={skill.name} className="skill-tag">
+                    {skill.name}
+                  </span>
                 ))}
               </div>
             </motion.div>
@@ -107,6 +113,25 @@ const About: React.FC = () => {
                 <EducationCard education={edu} />
               </motion.div>
             ))}
+            
+            <h3 className="resume-section-title" style={{ marginTop: 'var(--spacing-3xl)' }}>Stage</h3>
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <ExperienceCard experience={{
+                title: 'Développeur IA générative',
+                company: 'Amexio Group Luxembourg',
+                period: '2024',
+                description: [
+                  'Développement d\'une application RAG (Retrieval-Augmented Generation) en Python pour créer un chatbot intégré dans une GED (Gestion Électronique de Documents).',
+                  'Mise en œuvre de techniques d\'IA générative, vectorisation de documents et orchestration de chaînes RAG complètes.'
+                ],
+                location: 'Luxembourg'
+              }} />
+            </motion.div>
           </div>
           <div className="resume-column">
             <h3 className="resume-section-title">Expérience Professionnelle</h3>

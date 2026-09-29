@@ -20,7 +20,9 @@ const EducationCard: React.FC<EducationCardProps> = ({ education }) => {
       )}
       <ul className="education-description">
         {education.description.map((item, index) => (
-          <li key={index}>{item}</li>
+          <li key={index} className={item.trim() === '' ? 'empty-line' : ''}>
+            {item.trim() === '' ? '\u00A0' : item}
+          </li>
         ))}
       </ul>
     </Card>

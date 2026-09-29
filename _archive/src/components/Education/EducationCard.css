@@ -1,0 +1,99 @@
+.education-card {
+  position: relative;
+  padding: var(--spacing-xl);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+}
+
+.education-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+}
+
+.education-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: var(--spacing-lg);
+  bottom: var(--spacing-lg);
+  width: 4px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-sm);
+}
+
+.education-header {
+  margin-bottom: var(--spacing-md);
+  padding-left: var(--spacing-lg);
+}
+
+.education-degree {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+  letter-spacing: -0.01em;
+}
+
+.education-school {
+  font-size: var(--font-size-base);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.education-period {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  margin-bottom: var(--spacing-sm);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-left: var(--spacing-lg);
+}
+
+.education-location {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-lg);
+  padding-left: var(--spacing-lg);
+}
+
+.education-description {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-left: var(--spacing-lg);
+}
+
+.education-description li {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--spacing-sm);
+  position: relative;
+}
+
+.education-description li.empty-line {
+  margin-bottom: var(--spacing-md);
+  padding-left: 0;
+  height: var(--spacing-sm);
+}
+
+.education-description li.empty-line::before {
+  display: none;
+}
+
+.education-description li:not(.empty-line) {
+  padding-left: var(--spacing-lg);
+}
+
+.education-description li:not(.empty-line)::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+}
+
