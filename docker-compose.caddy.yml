@@ -1,0 +1,55 @@
+# Docker Compose — surcharge production PUBLIQUE avec reverse proxy Caddy.
+# À utiliser combiné à docker-compose.prod.yml :
+#   docker compose -f docker-compose.prod.yml -f docker-compose.caddy.yml up -d
+#
+# Retire l'exposition directe du port 3000 : seul Caddy publie 80 et 443.
+# Caddy émet et renouvelle automatiquement les certificats Let's Encrypt
+# à condition que DOMAIN pointe DÉJÀ vers l'IP publique du serveur.
+#
+# Variables requises dans .env :
+#   DOMAIN=exemple.com
+#   ACME_EMAIL=vous@exemple.com
+
+services:
+  web:
+    # Retire la publication de port : accessible uniquement via le réseau
+    # Docker interne (Caddy s'y connecte).
+    ports: !reset []
+    expose:
+      - "3000"
+    networks:
+      - proxy
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: site-perso-caddy
+    restart: unless-stopped
+    depends_on:
+      web:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: "${DOMAIN:?DOMAIN doit etre defini dans .env (ex jules.ginhac.com)}"
+      ACME_EMAIL: "${ACME_EMAIL:?ACME_EMAIL doit etre defini dans .env}"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - proxy
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  proxy:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:

@@ -1,0 +1,48 @@
+# Docker Compose — PRODUCTION (test local ou serveur SANS reverse proxy)
+# Publie le port 3000 sur 127.0.0.1 uniquement, pour un test local sûr.
+# Pour la mise en production publique avec HTTPS, utiliser en plus :
+#   docker compose -f docker-compose.prod.yml -f docker-compose.caddy.yml up -d
+# (l'override caddy retire l'exposition directe du port et ajoute Caddy.)
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NODE_VERSION: 22.11.0
+        # NEXT_PUBLIC_* : intégrées au build. Renseigner via .env ou CLI.
+        # Aucun secret ici — ces valeurs finissent dans le bundle client.
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+    image: site-perso:${TAG:-latest}
+    container_name: site-perso
+    restart: unless-stopped
+    env_file:
+      # Runtime : lues au démarrage. Contient CONTACT_EMAIL et SMTP_*.
+      # Ces variables NE sont PAS dans l'image ni dans le bundle client.
+      - path: .env
+        required: false
+      - path: .env.local
+        required: false
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      HOSTNAME: 0.0.0.0
+    ports:
+      # Localhost uniquement — pas d'exposition publique sans reverse proxy.
+      - "127.0.0.1:3000:3000"
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "require('http').get('http://127.0.0.1:3000/api/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

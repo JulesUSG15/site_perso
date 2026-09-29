@@ -1,0 +1,36 @@
+# Dépendances et artefacts locaux
+node_modules
+.next
+out
+build
+dist
+coverage
+*.tsbuildinfo
+next-env.d.ts
+
+# Git et historique
+.git
+.gitignore
+.gitattributes
+
+# Secrets (jamais dans l'image !) — on autorise .env.example
+.env
+.env.*
+*.local
+!.env.example
+
+# Outils et IDE
+.vscode
+.idea
+*.log
+.DS_Store
+
+# Config Docker (non nécessaire à l'intérieur de l'image)
+Dockerfile
+Dockerfile.*
+docker-compose*.yml
+Caddyfile
+
+# Documentation et archives
+README.md
+_archive

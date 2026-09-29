@@ -1,0 +1,33 @@
+# Docker Compose — DÉVELOPPEMENT
+# Utilise Dockerfile.dev, monte le code source, active le hot reload.
+# Usage : docker compose up
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        NODE_VERSION: 22.11.0
+    image: site-perso-dev:latest
+    container_name: site-perso-dev
+    env_file:
+      # Optionnel : créer .env.local pour renseigner NEXT_PUBLIC_SITE_URL,
+      # CONTACT_EMAIL, SMTP_* si besoin. Compose ne râle pas s'il est absent.
+      - path: .env.local
+        required: false
+    environment:
+      NODE_ENV: development
+      # Nécessaire pour que Webpack/Next détecte les modifs sous un bind mount
+      # (surtout macOS/Windows). Cela ajoute un léger surcoût CPU.
+      WATCHPACK_POLLING: "true"
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      # Volumes anonymes : isolent node_modules et .next de l'hôte pour
+      # éviter les conflits (binaires natifs différents, permissions).
+      - /app/node_modules
+      - /app/.next
+    command: ["npx", "next", "dev", "-H", "0.0.0.0", "-p", "3000"]

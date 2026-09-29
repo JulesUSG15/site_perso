@@ -7,7 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "docker:dev": "docker compose up",
+    "docker:dev:down": "docker compose down",
+    "docker:prod:build": "docker compose -f docker-compose.prod.yml build",
+    "docker:prod:up": "docker compose -f docker-compose.prod.yml up -d",
+    "docker:prod:down": "docker compose -f docker-compose.prod.yml down",
+    "docker:prod:logs": "docker compose -f docker-compose.prod.yml logs -f",
+    "docker:pub:up": "docker compose -f docker-compose.prod.yml -f docker-compose.caddy.yml up -d",
+    "docker:pub:down": "docker compose -f docker-compose.prod.yml -f docker-compose.caddy.yml down",
+    "docker:pub:logs": "docker compose -f docker-compose.prod.yml -f docker-compose.caddy.yml logs -f",
+    "docker:rebuild": "docker compose -f docker-compose.prod.yml build --no-cache"
   },
   "dependencies": {
     "next": "15.5.4",

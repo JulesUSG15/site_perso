@@ -1,0 +1,27 @@
+# syntax=docker/dockerfile:1.7
+# ---------- Image de développement ----------
+# Utilisée uniquement par docker-compose.yml (dev). Le code est monté depuis
+# l'hôte, donc les fichiers copiés ici sont surtout un fallback pour un
+# éventuel `docker run` direct.
+
+ARG NODE_VERSION=22.11.0
+FROM node:${NODE_VERSION}-alpine
+
+RUN apk add --no-cache libc6-compat
+
+WORKDIR /app
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+# HMR sous des volumes montés : nécessite le polling sur macOS/Windows
+ENV WATCHPACK_POLLING=true
+ENV CHOKIDAR_USEPOLLING=true
+
+COPY package.json package-lock.json ./
+RUN npm ci --no-audit --no-fund
+
+COPY . .
+
+EXPOSE 3000
+CMD ["npx", "next", "dev", "-H", "0.0.0.0", "-p", "3000"]

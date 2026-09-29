@@ -1,0 +1,37 @@
+# Reverse proxy Caddy — HTTPS automatique.
+# DOMAIN et ACME_EMAIL sont injectés par docker-compose.caddy.yml.
+# Pour tester localement sans HTTPS, utilisez plutôt docker-compose.prod.yml.
+
+{
+	email {$ACME_EMAIL}
+	# Décommenter pendant les tests pour éviter les rate-limits Let's Encrypt :
+	# acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+
+{$DOMAIN} {
+	encode zstd gzip
+
+	# Sécurité de base
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options    "nosniff"
+		Referrer-Policy           "strict-origin-when-cross-origin"
+		X-Frame-Options           "SAMEORIGIN"
+		-Server
+	}
+
+	# Cache long pour les assets buildés par Next (immuables, hashés)
+	@nextStatic path /_next/static/*
+	header @nextStatic Cache-Control "public, max-age=31536000, immutable"
+
+	reverse_proxy web:3000 {
+		header_up X-Forwarded-Proto {scheme}
+		header_up X-Forwarded-Host  {host}
+		header_up X-Real-IP         {remote_host}
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}
