@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
-import Script from "next/script";
 import { site } from "@/content/site";
-import { personal } from "@/content/personal";
+import { structuredDataJson } from "@/lib/structured-data";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,19 +26,6 @@ export const metadata: Metadata = {
   applicationName: site.name,
   authors: [{ name: site.name, url: site.url }],
   creator: site.name,
-  keywords: [
-    "Jules Ginhac",
-    "Apogée Consult",
-    "Président cofondateur",
-    "Direction d'entreprise",
-    "Développement commercial",
-    "Management de projet",
-    "Ingénieur IA",
-    "IA générative",
-    "RAG",
-    "Lyon",
-    "Consulting IA",
-  ],
   alternates: {
     canonical: "/",
   },
@@ -50,20 +36,11 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: `${site.name} — ${site.shortRole}`,
     description: site.description,
-    images: [
-      {
-        url: "/media/portrait.jpg",
-        width: 800,
-        height: 800,
-        alt: `Portrait de ${site.name}`,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${site.name} — ${site.shortRole}`,
     description: site.description,
-    images: ["/media/portrait.jpg"],
   },
   robots: {
     index: true,
@@ -84,44 +61,6 @@ export const viewport: Viewport = {
   themeColor: "#044477",
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: personal.name,
-  jobTitle: `${personal.currentRole} · ${personal.currentCompany}`,
-  description: site.description,
-  worksFor: {
-    "@type": "Organization",
-    name: personal.currentCompany,
-    url: personal.links.company,
-  },
-  alumniOf: {
-    "@type": "CollegeOrUniversity",
-    name: "Polytech Lyon",
-  },
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Lyon",
-    addressCountry: "FR",
-  },
-  email: `mailto:${personal.email}`,
-  url: site.url,
-  sameAs: [
-    personal.links.linkedin,
-    personal.links.github,
-    personal.links.company,
-    personal.links.profile,
-  ],
-  knowsAbout: [
-    "Direction d'entreprise",
-    "Management de projet",
-    "Développement commercial",
-    "IA générative",
-    "RAG",
-    "Deep Learning",
-  ],
-} as const;
-
 export default function RootLayout({
   children,
 }: {
@@ -131,12 +70,10 @@ export default function RootLayout({
     <html lang="fr" className={`${inter.variable} ${jetBrainsMono.variable}`}>
       <body className="font-sans">
         {children}
-        <Script
-          id="ld-person"
+        <script
           type="application/ld+json"
-          strategy="afterInteractive"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          // Contenu statique produit par lib/structured-data.ts (échappé).
+          dangerouslySetInnerHTML={{ __html: structuredDataJson }}
         />
       </body>
     </html>

@@ -46,7 +46,7 @@ export function Contact() {
                   <a
                     href={personal.links.linkedin}
                     target="_blank"
-                    rel="noreferrer noopener"
+                    rel="noopener"
                     className="chip hover:border-brand hover:text-brand"
                   >
                     LinkedIn
@@ -54,7 +54,7 @@ export function Contact() {
                   <a
                     href={personal.links.github}
                     target="_blank"
-                    rel="noreferrer noopener"
+                    rel="noopener"
                     className="chip hover:border-brand hover:text-brand"
                   >
                     GitHub
@@ -62,10 +62,26 @@ export function Contact() {
                   <a
                     href={personal.links.company}
                     target="_blank"
-                    rel="noreferrer noopener"
+                    rel="noopener"
                     className="chip hover:border-brand hover:text-brand"
                   >
                     Apogée Consult
+                  </a>
+                  <a
+                    href={personal.links.aposign}
+                    target="_blank"
+                    rel="noopener"
+                    className="chip hover:border-brand hover:text-brand"
+                  >
+                    Aposign
+                  </a>
+                  <a
+                    href={personal.links.cofounder}
+                    target="_blank"
+                    rel="noopener"
+                    className="chip hover:border-brand hover:text-brand"
+                  >
+                    {personal.cofounder.name}
                   </a>
                 </dd>
               </div>

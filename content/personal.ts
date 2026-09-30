@@ -2,6 +2,7 @@ export const personal = {
   name: "Jules Ginhac",
   currentRole: "Président cofondateur",
   currentCompany: "Apogée Consult",
+  alternateName: "Ginhac Jules",
   positioning:
     "Président cofondateur d'Apogée Consult & spécialiste IA",
   intro:
@@ -16,6 +17,12 @@ export const personal = {
     github: "https://github.com/JulesUSG15",
     company: "https://www.apogee-consult.com",
     profile: "https://www.apogee-consult.com/a-propos/jules-ginhac",
+    aposign: "https://aposign.fr",
+    cofounder: "https://ponton-mathi.eu",
+  },
+  cofounder: {
+    name: "Mathieu Ponton",
+    role: "Cofondateur & ingénieur logiciel",
   },
 } as const;
 

@@ -15,7 +15,7 @@ export const experiences: Experience[] = [
     period: "Juillet 2025 → aujourd'hui",
     location: "Lyon",
     summary:
-      "Société spécialisée dans les applications sur mesure et l'intégration de l'IA générative pour PME et ETI.",
+      "Société spécialisée dans les applications sur mesure et l'intégration de l'IA générative pour PME et ETI, cofondée avec Mathieu Ponton. Éditrice d'Aposign, plateforme de signature électronique pour TPE et PME.",
     highlights: [
       "Je dirige la société : stratégie, structuration, gouvernance et suivi de la performance.",
       "Je porte la stratégie commerciale : avant-vente, cadrage des besoins et contractualisation.",

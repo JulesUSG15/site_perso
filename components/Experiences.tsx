@@ -1,4 +1,5 @@
 import { education, experiences } from "@/content/experiences";
+import { RichText } from "./RichText";
 
 export function Experiences() {
   return (
@@ -11,7 +12,8 @@ export function Experiences() {
               Un parcours resserré autour de la direction, des projets et de l&apos;IA.
             </h2>
             <p className="prose-lead mt-4">
-              Les responsabilités actuelles chez Apogée Consult, le stage de
+              Les responsabilités actuelles chez{" "}
+              <RichText>Apogée Consult</RichText>, le stage de
               fin d&apos;études chez Vicinity et la présidence de Polyenco
               constituent le socle.
             </p>
@@ -32,10 +34,12 @@ export function Experiences() {
                 <h3 className="mt-2 text-xl font-semibold text-brand-night">
                   {experience.role}
                 </h3>
-                <p className="text-sm text-muted">{experience.organisation}</p>
+                <p className="text-sm text-muted">
+                  <RichText>{experience.organisation}</RichText>
+                </p>
                 {experience.summary ? (
                   <p className="mt-2 text-sm italic text-muted">
-                    {experience.summary}
+                    <RichText>{experience.summary}</RichText>
                   </p>
                 ) : null}
                 <ul className="mt-4 space-y-2 text-sm text-ink">
@@ -45,7 +49,9 @@ export function Experiences() {
                         aria-hidden="true"
                         className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-brand"
                       />
-                      <span className="leading-relaxed">{highlight}</span>
+                      <span className="leading-relaxed">
+                        <RichText>{highlight}</RichText>
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -54,7 +60,7 @@ export function Experiences() {
                     <span className="font-medium text-brand-night">
                       Réalisations collectives du cabinet
                     </span>{" "}
-                    — {experience.collective}
+                    — <RichText>{experience.collective}</RichText>
                   </p>
                 ) : null}
               </li>

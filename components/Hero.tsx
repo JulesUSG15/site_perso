@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { personal } from "@/content/personal";
+import { RichText } from "./RichText";
 
 export function Hero() {
   return (
@@ -17,12 +18,23 @@ export function Hero() {
             <p className="section-eyebrow">Cofondateur · Lyon</p>
             <h1 className="mt-6 text-5xl font-semibold leading-[1.02] tracking-tight text-brand-night sm:text-6xl lg:text-[4rem]">
               Jules Ginhac
+              <span className="mt-4 block text-lg font-medium leading-normal tracking-normal text-brand sm:text-xl">
+                Président cofondateur d&apos;
+                <a
+                  href={personal.links.company}
+                  target="_blank"
+                  rel="noopener"
+                  className="hover:underline"
+                >
+                  Apogée Consult
+                </a>{" "}
+                &{" "}
+                <span className="whitespace-nowrap">spécialiste IA</span>.
+              </span>
             </h1>
-            <p className="mt-4 text-lg font-medium text-brand sm:text-xl">
-              Président cofondateur d&apos;Apogée Consult &{" "}
-              <span className="whitespace-nowrap">spécialiste IA</span>.
+            <p className="prose-lead mt-6">
+              <RichText>{personal.intro}</RichText>
             </p>
-            <p className="prose-lead mt-6">{personal.intro}</p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <a href="#contact" className="btn btn-primary">
                 Me contacter
@@ -48,7 +60,7 @@ export function Hero() {
                   <a
                     href={personal.links.company}
                     target="_blank"
-                    rel="noreferrer noopener"
+                    rel="noopener"
                     className="hover:text-brand"
                   >
                     Apogée Consult
@@ -64,7 +76,7 @@ export function Hero() {
             </dl>
           </div>
           <div className="animate-fade-up [animation-delay:120ms]">
-            <div className="relative mx-auto max-w-[300px] sm:max-w-[320px]">
+            <figure className="relative mx-auto max-w-[300px] sm:max-w-[320px]">
               <div
                 aria-hidden="true"
                 className="absolute -inset-4 rounded-[28px] bg-gradient-to-br from-accent/25 via-white/0 to-brand/20 blur-lg"
@@ -73,8 +85,8 @@ export function Hero() {
                 <Image
                   src="/media/portrait.jpg"
                   alt={`Portrait de ${personal.name}`}
-                  width={640}
-                  height={640}
+                  width={400}
+                  height={400}
                   priority
                   className="h-full w-full object-cover"
                 />
@@ -84,7 +96,7 @@ export function Hero() {
                   « {personal.quote} »
                 </p>
               </figcaption>
-            </div>
+            </figure>
           </div>
         </div>
       </div>
