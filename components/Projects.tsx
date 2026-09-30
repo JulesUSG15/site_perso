@@ -1,4 +1,5 @@
 import { projects } from "@/content/projects";
+import { RichText } from "./RichText";
 
 export function Projects() {
   if (projects.length === 0) return null;
@@ -12,8 +13,9 @@ export function Projects() {
           </h2>
           <p className="prose-lead mt-4">
             Trois cas issus de mes expériences individuelles. Les livraisons du
-            portefeuille d&apos;Apogée Consult ne sont pas détaillées ici : je
-            les évoque dans mon parcours et sur le site du cabinet.
+            portefeuille d&apos;<RichText>Apogée Consult</RichText> ne sont pas
+            détaillées ici : je les évoque dans mon parcours et sur le site du
+            cabinet.
           </p>
         </div>
         <ol className="mt-14 space-y-6">

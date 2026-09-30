@@ -13,7 +13,9 @@ services:
         NODE_VERSION: 22.11.0
         # NEXT_PUBLIC_* : intégrées au build. Renseigner via .env ou CLI.
         # Aucun secret ici — ces valeurs finissent dans le bundle client.
-        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+        # Le défaut est l'URL publique : un oubli ne doit jamais produire un
+        # canonical / sitemap / og:url pointant vers localhost.
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://jules.ginhac.com}
     image: site-perso:${TAG:-latest}
     container_name: site-perso
     restart: unless-stopped

@@ -2,6 +2,7 @@ export const personal = {
   name: "Jules Ginhac",
   currentRole: "Président cofondateur",
   currentCompany: "Apogée Consult",
+  alternateName: "Ginhac Jules",
   positioning:
     "Président cofondateur d'Apogée Consult & spécialiste IA",
   intro:
@@ -16,6 +17,19 @@ export const personal = {
     github: "https://github.com/JulesUSG15",
     company: "https://www.apogee-consult.com",
     profile: "https://www.apogee-consult.com/a-propos/jules-ginhac",
+    aposign: "https://aposign.fr",
+    cofounder: "https://ponton-mathi.eu",
+  },
+  // Fiches Wikidata : elles relient les trois entités dans les graphes de
+  // connaissances (sameAs dans le JSON-LD, liste d'identifiants dans llms.txt).
+  wikidata: {
+    person: "https://www.wikidata.org/wiki/Q141603611",
+    company: "https://www.wikidata.org/wiki/Q139770210",
+    cofounder: "https://www.wikidata.org/wiki/Q139770179",
+  },
+  cofounder: {
+    name: "Mathieu Ponton",
+    role: "Cofondateur & ingénieur logiciel",
   },
 } as const;
 
