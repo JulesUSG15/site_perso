@@ -20,6 +20,13 @@ export const personal = {
     aposign: "https://aposign.fr",
     cofounder: "https://ponton-mathi.eu",
   },
+  // Fiches Wikidata : elles relient les trois entités dans les graphes de
+  // connaissances (sameAs dans le JSON-LD, liste d'identifiants dans llms.txt).
+  wikidata: {
+    person: "https://www.wikidata.org/wiki/Q141603611",
+    company: "https://www.wikidata.org/wiki/Q139770210",
+    cofounder: "https://www.wikidata.org/wiki/Q139770179",
+  },
   cofounder: {
     name: "Mathieu Ponton",
     role: "Cofondateur & ingénieur logiciel",

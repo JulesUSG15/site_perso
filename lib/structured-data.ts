@@ -42,6 +42,7 @@ export const structuredData = {
       colleague: { "@id": ids.cofounder },
       mainEntityOfPage: { "@id": ids.page },
       sameAs: [
+        personal.wikidata.person,
         personal.links.linkedin,
         personal.links.github,
         personal.links.profile,
@@ -60,6 +61,7 @@ export const structuredData = {
       "@id": ids.company,
       name: personal.currentCompany,
       url: personal.links.company,
+      sameAs: [personal.wikidata.company],
       address: {
         "@type": "PostalAddress",
         addressLocality: "Lyon",
@@ -82,6 +84,7 @@ export const structuredData = {
       name: personal.cofounder.name,
       url: personal.links.cofounder,
       jobTitle: personal.cofounder.role,
+      sameAs: [personal.wikidata.cofounder],
       worksFor: { "@id": ids.company },
       colleague: { "@id": ids.person },
     },
