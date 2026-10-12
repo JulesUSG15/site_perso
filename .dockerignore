@@ -34,3 +34,9 @@ Caddyfile
 # Documentation et archives
 README.md
 _archive
+
+# Generated Apache root and backups
+/public
+.deploy-backups
+.deploy-stage-*
+.deploy.lock

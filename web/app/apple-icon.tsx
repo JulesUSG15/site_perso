@@ -1,9 +1,10 @@
+export const dynamic = "force-static";
 import { ImageResponse } from "next/og";
 
-export const size = { width: 64, height: 64 };
+export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-export default function Icon() {
+export default function AppleIcon() {
   return new ImageResponse(
     (
       <div
@@ -15,9 +16,8 @@ export default function Icon() {
           justifyContent: "center",
           background: "#044477",
           color: "#ffffff",
-          fontSize: 34,
+          fontSize: 92,
           fontWeight: 700,
-          borderRadius: 14,
         }}
       >
         JG

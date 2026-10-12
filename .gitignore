@@ -44,3 +44,9 @@ lerna-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Apache document root is generated; sources live in web/public
+/public/
+/.deploy-backups/
+/.deploy-stage-*/
+/.deploy.lock

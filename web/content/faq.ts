@@ -29,6 +29,6 @@ export const faq: FaqItem[] = [
   {
     question: "Comment contacter Jules Ginhac ?",
     answer:
-      "Par email à ginhac@apogee-consult.com, via le formulaire de contact de cette page ou sur LinkedIn. Réponse sous 24 h ouvrées.",
+      "Par email à ginhac@apogee-consult.com ou sur LinkedIn. Réponse sous 24 h ouvrées.",
   },
 ];

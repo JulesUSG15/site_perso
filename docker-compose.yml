@@ -13,7 +13,7 @@ services:
     container_name: site-perso-dev
     env_file:
       # Optionnel : créer .env.local pour renseigner NEXT_PUBLIC_SITE_URL,
-      # CONTACT_EMAIL, SMTP_* si besoin. Compose ne râle pas s'il est absent.
+      # pour une URL publique différente. Compose ne râle pas s'il est absent.
       - path: .env.local
         required: false
     environment:
@@ -29,5 +29,5 @@ services:
       # Volumes anonymes : isolent node_modules et .next de l'hôte pour
       # éviter les conflits (binaires natifs différents, permissions).
       - /app/node_modules
-      - /app/.next
-    command: ["npx", "next", "dev", "-H", "0.0.0.0", "-p", "3000"]
+      - /app/web/.next
+    command: ["npm", "run", "dev", "--", "-H", "0.0.0.0", "-p", "3000"]

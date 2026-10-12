@@ -1,11 +1,11 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: [
+  content: { relative: true, files: [
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
     "./content/**/*.{ts,tsx}",
-  ],
+  ] },
   theme: {
     container: {
       center: true,

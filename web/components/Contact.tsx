@@ -1,5 +1,4 @@
 import { personal } from "@/content/personal";
-import { ContactForm } from "./ContactForm";
 
 export function Contact() {
   return (
@@ -88,7 +87,22 @@ export function Contact() {
             </dl>
           </div>
           <div className="min-w-0 rounded-3xl border border-line bg-white p-6 shadow-card sm:p-8">
-            <ContactForm />
+            <p className="section-eyebrow">Parlons de votre projet</p>
+            <h3 className="mt-5 text-2xl font-semibold tracking-tight text-brand-night">
+              Un premier échange, simplement.
+            </h3>
+            <p className="mt-4 leading-relaxed text-muted">
+              Présentez-moi votre activité, votre besoin et vos objectifs.
+              Nous pourrons préciser ensemble les prochaines étapes.
+            </p>
+            <a href={`mailto:${personal.email}`} className="btn btn-primary mt-8">
+              M’envoyer un email
+            </a>
+            <p className="mt-5 text-sm text-muted">
+              Vous pouvez aussi me contacter sur{" "}
+              <a href={personal.links.linkedin} target="_blank" rel="noopener"
+                className="font-medium text-brand underline">LinkedIn</a>.
+            </p>
           </div>
         </div>
       </div>

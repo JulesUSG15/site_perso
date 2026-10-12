@@ -16,7 +16,7 @@ services:
     # Docker interne (Caddy s'y connecte).
     ports: !reset []
     expose:
-      - "3000"
+      - "8080"
     networks:
       - proxy
 

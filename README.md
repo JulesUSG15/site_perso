@@ -1,270 +1,166 @@
 # Site personnel — Jules Ginhac
 
-Site vitrine one-page, développé en TypeScript avec Next.js (App Router).
-Refonte 2026 — positionnement : **Président cofondateur d'Apogée Consult
-& spécialiste IA**. Direction graphique proche
-d'[apogee-consult.com](https://www.apogee-consult.com), adaptée à une
-identité personnelle.
+Site vitrine **entièrement statique**, React / TypeScript / Next.js 15.
+Le design, les expériences, les projets, la FAQ, les données structurées SEO,
+les liens Wikidata et les cartes de partage sont conservés. Le contact se fait
+par email et LinkedIn ; aucun formulaire, SMTP, API ou serveur Node ne tourne en production.
 
-## Stack
+## Développement et vérifications
 
-- Next.js 15 · App Router · sortie `standalone`
-- React 19 · TypeScript strict
-- Tailwind CSS 3 + tokens CSS centralisés
-- Zod (validation) + Server Action pour le formulaire
-- Nodemailer (SMTP) pour l'envoi — configurable via `.env`
-- Docker + Docker Compose (dev · prod locale · prod publique avec Caddy)
-
----
-
-## Démarrage rapide
-
-### Option 1 — Docker (recommandé, aucune install Node requise)
+Depuis la racine du dépôt (Node.js et npm nécessaires uniquement pour développer/compiler) :
 
 ```bash
-cp .env.example .env.local          # facultatif : renseigner CONTACT_EMAIL / SMTP_*
-docker compose up                    # http://localhost:3000
+npm ci
+npm run dev
 ```
 
-Le code est monté dans le conteneur, le hot reload est actif.
-Arrêt : `Ctrl+C` puis `docker compose down` pour nettoyer.
-
-### Option 2 — Node local
+Le serveur de développement reste sur http://localhost:3000 avec rechargement automatique.
+Pour vérifier la version statique :
 
 ```bash
-npm install
-cp .env.example .env.local
-npm run dev                          # http://localhost:3000
+npm run build
+npm start
 ```
 
-### Scripts npm
-
-| Script                    | Rôle                                            |
-| ------------------------- | ----------------------------------------------- |
-| `npm run dev`             | Serveur de dev Next (hot reload)                |
-| `npm run build`           | Build de production                             |
-| `npm run start`           | Sert le build local                             |
-| `npm run typecheck`       | Vérification TypeScript                         |
-| `npm run lint`            | ESLint (config Next)                            |
-| `npm run docker:dev`      | Alias de `docker compose up`                    |
-| `npm run docker:dev:down` | Alias de `docker compose down`                  |
-| `npm run docker:prod:build` | Build de l'image de production              |
-| `npm run docker:prod:up`    | Démarre le conteneur de prod (test local)   |
-| `npm run docker:prod:logs`  | Suit les logs du conteneur de prod          |
-| `npm run docker:prod:down`  | Arrête le conteneur de prod                 |
-| `npm run docker:pub:up`     | Démarre app + Caddy (production publique)   |
-| `npm run docker:pub:logs`   | Suit les logs de la stack publique          |
-| `npm run docker:pub:down`   | Arrête la stack publique                    |
-| `npm run docker:rebuild`  | Rebuild sans cache (après changement de deps)   |
-
----
-
-## Tester la version de production en local
+`npm start` sert uniquement les fichiers de `web/out/` sur http://127.0.0.1:3000.
+Ce serveur de prévisualisation ne reproduit pas les redirections Apache.
 
 ```bash
-cp .env.example .env
-# Renseigner au moins CONTACT_EMAIL et NEXT_PUBLIC_SITE_URL.
-# (SMTP facultatif : sans SMTP, le formulaire renvoie une erreur explicite.)
-
-npm run docker:prod:build
-npm run docker:prod:up               # http://127.0.0.1:3000
-npm run docker:prod:logs             # suivre les logs
-npm run docker:prod:down             # arrêter
+npm run lint
+npm run typecheck
+npm run check:static
+npm run test:deploy
 ```
 
-Ce mode publie **uniquement** sur `127.0.0.1:3000` (pas d'exposition
-publique). Aucun domaine ni certificat n'est nécessaire ici.
+La compilation vérifie les liens locaux, les fichiers SEO, les identifiants Wikidata,
+les images de partage et l'absence de fichiers serveur/secrets dans l'export.
 
----
+## Structure et contenu
 
-## Mise en production (VPS Linux + Docker + Caddy)
+- `web/app/`, `web/components/`, `web/content/`, `web/lib/` : application et contenu.
+- `web/public/` : médias sources et `.htaccess` Apache, versionnés.
+- `web/out/` : export généré, autonome et prêt à héberger.
+- `public/` à la racine : **destination de publication Apache**, générée et ignorée par Git.
+- `.deploy-backups/` : sauvegardes des publications précédentes, hors du dossier public.
 
-### Prérequis serveur
+Ne modifiez pas le contenu dans le dossier `public/` à la racine : modifiez les
+sources dans `web/`, puis reconstruisez. Ne copiez jamais `web/out` dans `web/public`.
+Les futurs `git pull` ne modifient pas la publication ; seul le premier passage à
+cette structure déplace les anciens médias versionnés vers `web/public`.
 
-- Un VPS Linux (Debian/Ubuntu recommandé) avec **Docker Engine ≥ 24** et
-  **Docker Compose v2** (`docker compose`, pas `docker-compose`).
-- Ports **80/tcp** et **443/tcp+udp** ouverts sur le pare-feu.
-- Un domaine dont l'enregistrement **A** (et éventuellement **AAAA**)
-  pointe déjà vers l'IP publique du VPS.
+Les textes se trouvent dans `web/content/`. Les liens Wikidata restent dans
+`web/content/personal.ts`. Le graphe JSON-LD est produit à partir des mêmes données
+que le contenu visible. Mettez à jour `site.lastUpdated` lors d'une évolution éditoriale.
 
-### Étapes
+## Configuration
 
-1. Cloner le dépôt sur le serveur puis créer `.env` :
+L'URL publique par défaut est https://jules.ginhac.com. Pour une autre URL,
+créez `web/.env.local` avec seulement :
 
-   ```bash
-   cp .env.example .env
-   ```
+```dotenv
+NEXT_PUBLIC_SITE_URL=https://votre-domaine.tld
+```
 
-   Renseigner **au minimum** :
+L'adresse de contact est définie dans `web/content/personal.ts`.
+Les anciens `.env` / `.env.local` à la racine ne sont plus chargés par Next.
+Aucun identifiant SMTP n'est nécessaire ; aucun fichier d'environnement ne doit
+être placé dans un dossier public. La compilation télécharge les polices Google ;
+les fichiers de polices sont ensuite servis localement par le site statique.
 
-   ```
-   NEXT_PUBLIC_SITE_URL=https://votre-domaine.tld
-   CONTACT_EMAIL=contact@votre-domaine.tld
-   SMTP_HOST=…
-   SMTP_PORT=587
-   SMTP_SECURE=false
-   SMTP_USER=…
-   SMTP_PASSWORD=…
-   SMTP_FROM="Site Jules <no-reply@votre-domaine.tld>"
-   DOMAIN=votre-domaine.tld
-   ACME_EMAIL=vous@votre-domaine.tld
-   TAG=2026-09-30-01
-   ```
+## Publication sur cerbere — sans sudo
 
-2. Construire et lancer la stack publique :
+Apache est déjà configuré pour `/home/jules/site_perso/public/`, avec
+`AllowOverride All` et `mod_rewrite`. Aucun proxy, module headers, Docker ou service
+utilisateur n'est nécessaire. Le HTTPS et le DNS existants restent en place.
 
-   ```bash
-   docker compose -f docker-compose.prod.yml -f docker-compose.caddy.yml build
-   docker compose -f docker-compose.prod.yml -f docker-compose.caddy.yml up -d
-   docker compose -f docker-compose.prod.yml -f docker-compose.caddy.yml logs -f
-   ```
-
-3. Caddy demande automatiquement les certificats Let's Encrypt au premier
-   accès. Vérifier ensuite `https://votre-domaine.tld` puis
-   `https://votre-domaine.tld/api/health`.
-
-Seul Caddy publie les ports 80/443 ; le service `web` reste sur le
-réseau Docker interne (`expose: 3000` uniquement).
-
-### Ce que Caddy fait
-
-- Redirige HTTP → HTTPS.
-- Émission et renouvellement automatiques des certificats Let's Encrypt.
-- Compression zstd/gzip, en-têtes de sécurité de base, cache immutable
-  sur les assets `/_next/static/*`.
-- Persistance des certificats dans les volumes `caddy_data` / `caddy_config`.
-
----
-
-## Mise à jour · rollback
-
-### Procédure
-
-Ce n'est **pas** un déploiement zéro-downtime : le conteneur `web` est
-brièvement remplacé pendant la mise à jour (Caddy renvoie 502 pendant
-quelques secondes). Prévoir une fenêtre courte.
-
-1. Sur le serveur, mettre à jour le code :
-
-   ```bash
-   git pull
-   ```
-
-2. Fixer un tag identifiable (utile pour rollback) dans `.env` :
-
-   ```
-   TAG=2026-10-01-01
-   ```
-
-3. Rebuild puis remplacement :
-
-   ```bash
-   docker compose -f docker-compose.prod.yml -f docker-compose.caddy.yml build
-   docker compose -f docker-compose.prod.yml -f docker-compose.caddy.yml up -d
-   ```
-
-Docker Compose reconstruit uniquement le service `web` et le remplace.
-Caddy reste debout, les certificats sont conservés.
-
-### Rollback
-
-L'image précédente reste dans le cache local sous son ancien tag tant
-qu'elle n'est pas supprimée. Pour revenir en arrière :
+Après avoir publié les changements de ce dépôt sur GitHub :
 
 ```bash
-TAG=<ancien-tag> docker compose -f docker-compose.prod.yml -f docker-compose.caddy.yml up -d --no-build
+cd ~/site_perso
+git status --short
+# Si des changements locaux sont affichés, les conserver avant de continuer.
+git pull --ff-only origin main
+npm ci --no-audit --no-fund
+npm run deploy:static
 ```
 
-Lister les tags disponibles :
+Exécutez les commandes séparément et arrêtez-vous en cas d'erreur.
+`deploy:static` compile puis vérifie l'export **avant de toucher au site publié**.
+Le script copie uniquement `web/out/`, prépare les permissions de lecture pour
+Apache (dossiers 755, fichiers 644), sauvegarde l'ancien `public/` puis le remplace.
+Il refuse un dossier `public` qui serait un lien symbolique et les déploiements concurrents.
+Le remplacement comporte deux renommages : une très brève interruption est possible.
+Les dossiers parents doivent rester traversables par Apache, comme pour l'ancien site.
+
+Le `.htaccess` publié gère l'accueil, la page 404, les redirections des anciennes
+pages `.html` et le type PNG des images Open Graph / icônes générées. Il n'utilise
+ni `ProxyPass`, ni `RequestHeader`, ni les modules absents sur cerbere.
+
+### Vérification publique
 
 ```bash
-docker images site-perso
+curl -I https://jules.ginhac.com/
+curl -I https://jules.ginhac.com/opengraph-image
+curl -I https://jules.ginhac.com/robots.txt
+curl -I https://jules.ginhac.com/sitemap.xml
+curl -I https://jules.ginhac.com/llms.txt
+curl -I https://jules.ginhac.com/about.html
 ```
 
-Nettoyer les vieilles images (à ne faire qu'après validation) :
+Attendu : 200 pour les cinq premiers, `Content-Type: image/png` pour l'image,
+301 vers `/` pour l'ancienne page. Vérifiez aussi l'affichage mobile et le lien email.
+L'ancien `/api/health` est supprimé : une URL inconnue répond désormais 404.
+
+**Après validation du site public**, arrêter l'ancien service Node :
 
 ```bash
-docker image prune -a --filter "until=168h"    # > 7 jours
+systemctl --user disable --now site-perso.service
 ```
 
----
+Il n'est plus nécessaire de laisser une session SSH ouverte ou d'activer Linger.
 
-## Variables d'environnement
+### Mises à jour et retour arrière
 
-`.env.example` détaille chaque variable. Résumé :
+Pour les mises à jour : mêmes commandes `git pull`, `npm ci`, `npm run deploy:static`.
+La compilation ne touche pas le site en ligne en cas d'échec.
+Le script affiche le chemin exact de la sauvegarde précédente. Pour revenir à celle-ci,
+remplacer `NOM_SAUVEGARDE` ci-dessous par son nom réel, puis exécuter :
 
-| Nom                    | Où / quand ?         | Public ? | Rôle |
-|------------------------|----------------------|----------|------|
-| `NEXT_PUBLIC_SITE_URL` | **Build**            | Oui      | Metadata (canonical, OG, sitemap) |
-| `CONTACT_EMAIL`        | Runtime              | Non      | Destination des messages formulaire |
-| `SMTP_HOST/PORT/...`   | Runtime              | Non      | Envoi via Nodemailer |
-| `DOMAIN`               | Runtime (Caddy)      | Non      | Domaine servi par Caddy |
-| `ACME_EMAIL`           | Runtime (Caddy)      | Non      | Contact Let's Encrypt |
-| `TAG`                  | Build & runtime      | —        | Tag Docker (rollback) |
-
-- Les variables `NEXT_PUBLIC_*` sont **intégrées au bundle client** au
-  moment du `next build` : ne jamais y mettre de secret, et rebuild
-  l'image si leur valeur change.
-- Les identifiants SMTP sont lus **au démarrage du conteneur**. Ils ne
-  sont **jamais** passés comme argument de build ni intégrés au frontend.
-- `.env` et `.env.local` sont ignorés par Git (`.gitignore`) et exclus de
-  l'image (`.dockerignore`). Seul `.env.example` est partagé.
-
----
-
-## Structure du dépôt
-
-```
-app/                # Layout, page d'accueil, sitemap, robots, /api/health, server action
-components/         # Hero, Expertises, Projects, Experiences, Contact, header, footer
-content/            # Données éditoriales typées (site, personal, expertises, …)
-lib/                # Schéma Zod, rate-limit, envoi email
-public/media/       # Portrait
-public/assets/img/  # Visuels des expériences (conservés)
-Dockerfile          # Image de production (multi-stage, standalone, non-root)
-Dockerfile.dev      # Image de développement (hot reload)
-docker-compose.yml            # Dev
-docker-compose.prod.yml       # Prod locale (127.0.0.1:3000)
-docker-compose.caddy.yml      # Override : Caddy + réseau interne
-Caddyfile           # Reverse proxy HTTPS
-_archive/           # Ancien site Vite + HTML statiques (non exposé)
+```bash
+node --input-type=module - <<'JS'
+import { access, rename } from 'node:fs/promises';
+const previous = '.deploy-backups/NOM_SAUVEGARDE';
+await access(previous + '/index.html');
+const displaced = '.deploy-backups/avant-retour-' + Date.now();
+await rename('public', displaced);
+try { await rename(previous, 'public'); }
+catch (error) { await rename(displaced, 'public'); throw error; }
+JS
 ```
 
----
+Ne supprimez les anciennes sauvegardes qu'après vérification. La première sauvegarde
+peut ne contenir que les fichiers de l'ancien site ; ne la considérez pas comme un
+export statique valide sans la vérifier.
 
-## Éditer le contenu
+## Docker facultatif
 
-Toutes les données sont en TypeScript, une seule source par sujet :
+Docker reste disponible pour le développement (`docker compose up`) et pour héberger
+le même export ailleurs. L'image de production sert des fichiers avec Nginx non-root,
+sans Node.js ni SMTP. Les ports publics et Caddy ne sont **pas utilisés sur cerbere**.
 
-| Fichier                  | Rôle                                                |
-| ------------------------ | --------------------------------------------------- |
-| `content/site.ts`        | Titre, description, navigation, URL publique        |
-| `content/personal.ts`    | Identité, positionnement, email, liens              |
-| `content/expertises.ts`  | Les quatre piliers                                  |
-| `content/experiences.ts` | Chronologie + formation + certification             |
-| `content/projects.ts`    | Trois cas concrets                                  |
+```bash
+docker compose -f docker-compose.prod.yml up --build -d
+# http://127.0.0.1:3000
+```
 
-Modifier un fichier → rebuild : `npm run docker:prod:build`.
+Pour un serveur dédié disposant de ports 80/443 libres, les fichiers Caddy restent
+utilisables : renseigner DOMAIN, ACME_EMAIL et TAG dans un `.env` à la racine, puis
+utiliser ensemble `docker-compose.prod.yml` et `docker-compose.caddy.yml`.
+Les redirections et types MIME sont aussi prévus dans `nginx.conf`.
 
----
+## Limites assumées
 
-## Formulaire de contact
-
-- Validation côté serveur avec Zod.
-- Champ honeypot invisible → filtre les bots naïfs.
-- Rate-limit mémoire : 3 envois par IP / 60 s.
-- Envoi via SMTP configuré dans `.env`.
-- Sans SMTP configuré, **aucun faux succès** : le formulaire affiche une
-  erreur explicite et propose l'email en lien `mailto:`.
-
----
-
-## Points restant à confirmer par vous
-
-- Formulation Vicinity (résultats et « seul développeur ») publiable
-  telle quelle ?
-- Attribution collective des réalisations Apogée mentionnées dans le
-  parcours — texte : « Réalisations collectives du cabinet — … ».
-- Ajouter un téléphone ? (aujourd'hui volontairement omis)
-- Ajouter des liens vers des livrables publics pour Atol / BYOME s'ils
-  existent.
+- Le lien email ouvre le logiciel de messagerie du visiteur ; l'adresse reste visible.
+- Les images sont servies directement, sans endpoint d'optimisation Next à la volée.
+- Les données et images SEO sont générées à la compilation ; reconstruire pour les changer.
+- Aucune garantie de positionnement Google ou d'exploitation de `llms.txt` n'est ajoutée.

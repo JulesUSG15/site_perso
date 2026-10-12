@@ -3,11 +3,11 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit",
+    "dev": "cd web && next dev",
+    "build": "cd web && next build && node ../scripts/check-static.mjs",
+    "start": "node scripts/preview-static.mjs",
+    "lint": "cd web && next lint",
+    "typecheck": "tsc --noEmit -p web/tsconfig.json",
     "docker:dev": "docker compose up",
     "docker:dev:down": "docker compose down",
     "docker:prod:build": "docker compose -f docker-compose.prod.yml build",
@@ -17,18 +17,18 @@
     "docker:pub:up": "docker compose -f docker-compose.prod.yml -f docker-compose.caddy.yml up -d",
     "docker:pub:down": "docker compose -f docker-compose.prod.yml -f docker-compose.caddy.yml down",
     "docker:pub:logs": "docker compose -f docker-compose.prod.yml -f docker-compose.caddy.yml logs -f",
-    "docker:rebuild": "docker compose -f docker-compose.prod.yml build --no-cache"
+    "docker:rebuild": "docker compose -f docker-compose.prod.yml build --no-cache",
+    "deploy:static": "npm run build && node scripts/deploy-static.mjs",
+    "check:static": "node scripts/check-static.mjs",
+    "test:deploy": "node --test scripts/deploy-static.test.mjs"
   },
   "dependencies": {
     "next": "15.5.26",
     "react": "19.1.1",
-    "react-dom": "19.1.1",
-    "nodemailer": "6.10.1",
-    "zod": "3.24.1"
+    "react-dom": "19.1.1"
   },
   "devDependencies": {
     "@types/node": "22.10.5",
-    "@types/nodemailer": "6.4.17",
     "@types/react": "19.1.16",
     "@types/react-dom": "19.1.9",
     "autoprefixer": "10.4.20",
